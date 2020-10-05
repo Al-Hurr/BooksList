@@ -1,0 +1,72 @@
+﻿@model MvcBook.Models.BookAutorViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Books" asp-action="Index" method="get">
+    <p>
+        Title: <input type="text" asp-for="SearchString">
+
+        <select asp-for="bookDateTime" asp-items="Model.Dates">
+            <option value="">All</option>
+        </select>
+        @*Date: <input type="text" asp-for="bookDateTime">
+        <option value="">All</option>*@
+
+        <select asp-for="BookAutor" asp-items="Model.Autors">
+            <option value="">All</option>
+        </select>
+
+        <input type="submit" value="Filter" />
+
+
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Books) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
