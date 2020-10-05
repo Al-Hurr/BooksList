@@ -28,6 +28,7 @@ namespace MvcBook.Controllers
 
             IQueryable<string> dateQuery = from m in _context.Book
                                             orderby m.ReleaseDate
+                                            
                                             select m.ReleaseDate.ToString("d");
 
             var books = from m in _context.Book
