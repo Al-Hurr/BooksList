@@ -45,7 +45,9 @@ namespace MvcBook.Controllers
 
             if (!string.IsNullOrEmpty(bookDateTime))
             {
+                
                 var releasedate = DateTime.Parse(bookDateTime);
+                releasedate.ToShortDateString();
                 books = books.Where(x => x.ReleaseDate == releasedate);
             }
 

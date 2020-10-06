@@ -13,6 +13,13 @@ namespace MvcBook.Data
         }
 
         public DbSet<Book> Book { get; set; }
+
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=booksdb;Username=postgres;Password=password");
+        //}
     }
 
 }

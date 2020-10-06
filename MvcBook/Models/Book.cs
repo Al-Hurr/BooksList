@@ -16,7 +16,7 @@ namespace MvcBook.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
-        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
+       // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
         [Required]
         [StringLength(30)]
         public string Autor { get; set; }

@@ -1,10 +1,10 @@
 ﻿@model MvcBook.Models.BookAutorViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Book";
 }
 
-<h1>Index</h1>
+<h1>Books</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,13 +13,13 @@
     <p>
         Title: <input type="text" asp-for="SearchString">
 
-        <select asp-for="bookDateTime" asp-items="Model.Dates">
+        Date:  <select asp-for="bookDateTime" asp-items="Model.Dates">
             <option value="">All</option>
         </select>
         @*Date: <input type="text" asp-for="bookDateTime">
         <option value="">All</option>*@
 
-        <select asp-for="BookAutor" asp-items="Model.Autors">
+        Autor: <select asp-for="BookAutor" asp-items="Model.Autors">
             <option value="">All</option>
         </select>
 

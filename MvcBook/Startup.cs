@@ -28,7 +28,7 @@ namespace MvcBook
             services.AddControllersWithViews();
 
             services.AddDbContext<MvcBookContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("MvcBookContext")));
+            options.UseNpgsql(Configuration.GetConnectionString("MvcBookContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
