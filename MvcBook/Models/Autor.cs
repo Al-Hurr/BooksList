@@ -17,5 +17,8 @@ namespace MvcBook.Models
         public int Age { get; set; }
 
         public string Email { get; set; }
+
+        [NotMapped]
+        public string ReturnUrl { get; set; }
     }
 }
