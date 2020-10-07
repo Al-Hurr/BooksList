@@ -166,7 +166,7 @@ namespace MvcBook.Controllers
 
             if (book != null)
             {
-                return View("Delete2", author);
+                author.InBook = true;
             }
 
             return View(author);

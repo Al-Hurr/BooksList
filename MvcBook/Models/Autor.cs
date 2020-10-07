@@ -20,5 +20,7 @@ namespace MvcBook.Models
 
         [NotMapped]
         public string ReturnUrl { get; set; }
+        [NotMapped]
+        public bool InBook { get; set; } = false;
     }
 }
