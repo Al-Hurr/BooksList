@@ -22,5 +22,8 @@ namespace MvcBook.Models
         public string ReturnUrl { get; set; }
         [NotMapped]
         public bool InBook { get; set; } = false;
+        [NotMapped]
+        [Display(Name = "Books")]
+        public List<Book> BooksforAuthor { get; set; }
     }
 }

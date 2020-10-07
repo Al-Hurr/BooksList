@@ -69,7 +69,13 @@ namespace MvcBook.Controllers
             }
 
             author.ReturnUrl = returnURL;
+            
+            var books = from m in _context.Book
+                        select m;
 
+            books = books.Where(s => s.Autor.Id==author.Id);
+
+            author.BooksforAuthor = books.ToList();
             return View(author);
         }
 
