@@ -2,66 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MvcBook.Data;
 using MvcBook.Models;
 
 namespace MvcBook.Controllers
 {
-    public class BooksController : Controller
+    public class AuthorsController : Controller
     {
         private readonly MvcBookContext _context;
 
-        public BooksController(MvcBookContext context)
+        public AuthorsController(MvcBookContext context)
         {
             _context = context;
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(int? bookAutor, string searchString, string bookDateTime)
+        public async Task<IActionResult> Index()
         {
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                            orderby m.Name
-                                            select m;
+            
 
-            IQueryable<string> dateQuery = from m in _context.Book
-                                            orderby m.ReleaseDate
-                                            
-                                            select m.ReleaseDate.ToString("d");
-
-            var books = from m in _context.Book
+            var authors = from m in _context.Autors
                         select m;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                books = books.Where(s => s.Title.Contains(searchString));
-            }
 
-            
-
-            if (!string.IsNullOrEmpty(bookDateTime))
-            {
-                
-                var releasedate = DateTime.Parse(bookDateTime);
-                releasedate.ToShortDateString();
-                books = books.Where(x => x.ReleaseDate == releasedate);
-            }
-            
-            if (bookAutor.HasValue)
-            {
-                books = books.Where(x => x.Autor.Id == bookAutor);
-            }
+            //var books = from m in _context.Book
+            //            select m.Autor;
 
 
-            var bookAutorVM = new BookAutorViewModel
+
+            var autorsVM = new AuthorViewModel
             {
-                Autors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name)),
-                Dates = new SelectList(await dateQuery.Distinct().ToListAsync()),
-                Books = await books.ToListAsync()
+
+                Authors = await authors.ToListAsync(),
+                //AuthorsStr = await books.ToListAsync()
+
             };
 
-            return View(bookAutorVM);
+            return View(autorsVM);
 
             
         }
@@ -80,27 +61,20 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
+            var author = await _context.Autors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
+            if (author == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(author);
         }
 
         // GET: Books/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
-
-            return View(new Book
-            {
-                Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name))
-            });
+            return View();
         }
 
         // POST: Books/Create
@@ -108,15 +82,15 @@ namespace MvcBook.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,AutorId,Price")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Name,Age,Email")] Autor author)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
+                _context.Add(author);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(author);
         }
 
         // GET: Books/Edit/5
@@ -127,19 +101,12 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
-            if (book == null)
+            var autor = await _context.Autors.FindAsync(id);
+            if (autor == null)
             {
                 return NotFound();
             }
-
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
-
-            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
-
-            return View(book);
+            return View(autor);
         }
 
         // POST: Books/Edit/5
@@ -147,9 +114,9 @@ namespace MvcBook.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,AutorId,Price")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Email")] Autor author)
         {
-            if (id != book.Id)
+            if (id != author.Id)
             {
                 return NotFound();
             }
@@ -158,12 +125,12 @@ namespace MvcBook.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(author);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!BookExists(author.Id))
                     {
                         return NotFound();
                     }
@@ -174,7 +141,7 @@ namespace MvcBook.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(author);
         }
 
         // GET: Books/Delete/5
@@ -185,14 +152,22 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
+            var author = await _context.Autors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
+            if (author == null)
             {
                 return NotFound();
             }
+            
+            var book = await _context.Book
+                .FirstOrDefaultAsync(m => m.Autor.Name == author.Name);
 
-            return View(book);
+            if (book != null)
+            {
+                return View("Delete2", author);
+            }
+
+            return View(author);
         }
 
         // POST: Books/Delete/5
@@ -200,15 +175,15 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            _context.Book.Remove(book);
+            var author = await _context.Autors.FindAsync(id);
+            _context.Autors.Remove(author);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-            return _context.Book.Any(e => e.Id == id);
+            return _context.Autors.Any(e => e.Id == id);
         }
     }
 }

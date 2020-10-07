@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcBook.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MvcBook.Migrations
 {
     [DbContext(typeof(MvcBookContext))]
-    partial class MvcBookContextModelSnapshot : ModelSnapshot
+    [Migration("20201006164041_Alter_Book")]
+    partial class Alter_Book
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +51,6 @@ namespace MvcBook.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("AutorId")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
@@ -65,16 +64,7 @@ namespace MvcBook.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutorId");
-
                     b.ToTable("Book");
-                });
-
-            modelBuilder.Entity("MvcBook.Models.Book", b =>
-                {
-                    b.HasOne("MvcBook.Models.Autor", "Autor")
-                        .WithMany()
-                        .HasForeignKey("AutorId");
                 });
 #pragma warning restore 612, 618
         }

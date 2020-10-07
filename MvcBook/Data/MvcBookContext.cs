@@ -14,6 +14,10 @@ namespace MvcBook.Data
 
         public DbSet<Book> Book { get; set; }
 
+        public DbSet<Autor> Autors { get; set; }
+
+
+
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

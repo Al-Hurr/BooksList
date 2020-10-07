@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,13 +18,16 @@ namespace MvcBook.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
        // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
-        [Required]
-        [StringLength(30)]
-        public string Autor { get; set; }
+        public Autor Autor { get; set; }
+        public int? AutorId { get; set; }
+        
        
         [Range(1, 100)]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
+
+        [NotMapped]
+        public SelectList Authors { get; set; }
     }
 }

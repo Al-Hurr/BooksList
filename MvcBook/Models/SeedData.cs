@@ -27,7 +27,7 @@ namespace MvcBook.Models
                     {
                         Title = "Буря мечей",
                         ReleaseDate = DateTime.Parse("2018-2-12"),
-                        Autor = "Джордж Мартин",
+                        //Autor = "Джордж Мартин",
                         Price = 7.99M
                     },
 
@@ -35,7 +35,7 @@ namespace MvcBook.Models
                     {
                         Title = "Властелин Колец. Возвращение короля",
                         ReleaseDate = DateTime.Parse("1990-3-13"),
-                        Autor = "Джон Р. Р. Толкин",
+                        //Autor = "Джон Р. Р. Толкин",
                         Price = 8.99M
                     },
 
@@ -43,7 +43,7 @@ namespace MvcBook.Models
                     {
                         Title = "Крестный отец",
                         ReleaseDate = DateTime.Parse("2009-2-23"),
-                        Autor = "Марио Пьюзо",
+                        //Autor = "Марио Пьюзо",
                         Price = 9.99M
                     },
 
@@ -51,7 +51,7 @@ namespace MvcBook.Models
                     {
                         Title = "Вторая жизнь Уве",
                         ReleaseDate = DateTime.Parse("1999-4-15"),
-                        Autor = "Фредрик Бакман",
+                        //Autor = "Фредрик Бакман",
                         Price = 3.99M
                     }
                 );
