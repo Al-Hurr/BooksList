@@ -116,6 +116,13 @@ namespace MvcBook.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            IQueryable<Autor> autorQuery = from m in _context.Autors
+                                           orderby m.Name
+                                           select m;
+
+            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
+
             return View(book);
         }
 
@@ -174,6 +181,13 @@ namespace MvcBook.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            IQueryable<Autor> autorQuery = from m in _context.Autors
+                                           orderby m.Name
+                                           select m;
+
+            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
+
             return View(book);
         }
 

@@ -13,8 +13,8 @@ namespace MvcBook.Models
         [Required]
         [System.ComponentModel.DisplayName("Название")]
         public string Title { get; set; }
-
-        [Display(Name = "Дата выпуска")]
+        
+        [Display(Name = "Дата выпуска")] //Желательно давать названия таким способом.
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }

@@ -54,9 +54,8 @@
 @foreach (var item in Model.Books) {
         <tr>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye"></span></a> |
+                <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye linkclass"></span></a> |
                 <a asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a> 
-                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -70,8 +69,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
-                
+            <td>   
                 <a asp-action="Delete" asp-route-id="@item.Id"><span class=" fa fa-trash"></span></a>
             </td>
         </tr>
