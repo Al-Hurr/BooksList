@@ -1,37 +1,38 @@
 ﻿@model MvcBook.Models.BookAutorViewModel
 
 @{
-    ViewData["Title"] = "Book";
+    ViewData["Title"] = "Книга";
     var returnUrl = Context.Request.Path.Value;
 }
 
-<h1>Books</h1>
+<h1>Книги</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"><span class=" fa fa-plus"></span></a>
 </p>
 <form asp-controller="Books" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" asp-for="SearchString">
+        Название: <input type="text" asp-for="SearchString">
 
-        Date:  <select asp-for="bookDateTime" asp-items="Model.Dates">
-            <option value="">All</option>
+        Дата выпуска:  <select asp-for="bookDateTime" asp-items="Model.Dates">
+            <option value="">Все</option>
         </select>
         @*Date: <input type="text" asp-for="bookDateTime">
         <option value="">All</option>*@
 
-        Autor: <select asp-for="BookAutor" asp-items="Model.Autors">
-            <option value="">All</option>
+        Автор: <select asp-for="BookAutor" asp-items="Model.Autors">
+            <option value="">Все</option>
         </select>
 
-        <input type="submit" value="Filter" />
-
+        
+        <button type="submit"> <span class=" fa fa-search"></span></button>
 
     </p>
 </form>
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Books[0].Title)
             </th>
@@ -53,6 +54,11 @@
 @foreach (var item in Model.Books) {
         <tr>
             <td>
+                <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye"></span></a> |
+                <a asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a> 
+                
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
@@ -65,9 +71,8 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                
+                <a asp-action="Delete" asp-route-id="@item.Id"><span class=" fa fa-trash"></span></a>
             </td>
         </tr>
 }

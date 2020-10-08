@@ -13,9 +13,11 @@ namespace MvcBook.Models
 
         [StringLength(60, MinimumLength = 3)]
         [Required]
+        [System.ComponentModel.DisplayName("Имя")]
         public string Name { get; set; }
+        [System.ComponentModel.DisplayName("Возраст")]
         public int Age { get; set; }
-
+        [System.ComponentModel.DisplayName("Электронная почта")]
         public string Email { get; set; }
 
         [NotMapped]
@@ -23,7 +25,7 @@ namespace MvcBook.Models
         [NotMapped]
         public bool InBook { get; set; } = false;
         [NotMapped]
-        [Display(Name = "Books")]
+        [System.ComponentModel.DisplayName("Книги")]
         public List<Book> BooksforAuthor { get; set; }
     }
 }

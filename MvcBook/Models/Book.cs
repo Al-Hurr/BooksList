@@ -11,13 +11,15 @@ namespace MvcBook.Models
 
         [StringLength(60, MinimumLength = 3)]
         [Required]
+        [System.ComponentModel.DisplayName("Название")]
         public string Title { get; set; }
 
-        [Display(Name = "Release Date")]
+        [Display(Name = "Дата выпуска")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
-       // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
+        // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
+        [Display(Name = "Автор")]
         public Autor Autor { get; set; }
         public int? AutorId { get; set; }
         
@@ -25,6 +27,7 @@ namespace MvcBook.Models
         [Range(1, 100)]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
+        [Display(Name = "Цена")]
         public decimal Price { get; set; }
 
         [NotMapped]

@@ -1,13 +1,13 @@
 ﻿@model MvcBook.Models.Autor
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Сведения";
 }
 
-<h1>Details</h1>
+<h1>Сведения</h1>
 
 <div>
-    <h4>Author</h4>
+    <h4>Автор</h4>
     <hr />
     <div class="row">
         <div class="col-sm-2">
@@ -28,30 +28,32 @@
         <div class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </div>
+
         <div class="col-sm-2">
+
             @Html.DisplayNameFor(model => model.BooksforAuthor)
 
             <div>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a> |
                 @if (!string.IsNullOrEmpty(Model.ReturnUrl))
                 {
-                    <a href="@Model.ReturnUrl">Back to Books</a>
+                    <a href="@Model.ReturnUrl"><span class=" fa fa-arrow-left"></span></a>
                 }
                 else
                 {
-                    <a asp-action="Index">Back to List</a>
+                    <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
                 }
             </div>
         </div>
         <div class="col-sm-10">
-            @foreach (var item in Model.BooksforAuthor)
-            {
-                <div class="row">
-                    <div class="col">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </div>
-                </div>
-            }
+            <ul>
+                @foreach (var item in Model.BooksforAuthor)
+                {
+                <li>                   
+                            @Html.DisplayFor(modelItem => item.Title)                       
+                </li>
+                }
+            </ul>
         </div>
        
     </div>

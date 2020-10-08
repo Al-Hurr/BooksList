@@ -1,21 +1,23 @@
 ﻿@model MvcBook.Models.Autor
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Удалить";
 }
 
-<h1>Delete</h1>
+
 @if (!Model.InBook)
 {
-    <h3>Are you sure you want to delete this?</h3>
+    <h1>Удаление</h1>
+    <h3>Хотите ли вы удалить автора?</h3>
 }
 else
 {
-<h3>Невозможно удалить автора т.к. на него ссылается книга.</h3>
+    <h1 style="color:red">Ошибка</h1>
+    <h3 style="color:red" >Невозможно удалить автора т.к. на него ссылается книга.</h3>
 }
 
 <div>
-    <h4>Author</h4>
+    <h4>Автор</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -43,8 +45,8 @@ else
         <input type="hidden" asp-for="Id" />
         @if (!Model.InBook)
         {
-            @:<input type="submit" value="Delete" class="btn btn-danger" /> |
+            @:<input type="submit" value="Удалить" class="btn btn-danger" /> |
         }
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
     </form>
 </div>
