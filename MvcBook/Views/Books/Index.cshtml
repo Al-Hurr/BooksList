@@ -6,9 +6,12 @@
 }
 
 <h1>Книги</h1>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 
 <p>
-    <a asp-action="Create"><span class=" fa fa-plus"></span></a>
+    <a class="openmodal" asp-action="Create"><span class=" fa fa-plus"></span></a>
 </p>
 <form asp-controller="Books" asp-action="Index" method="get">
     <p>
@@ -18,13 +21,13 @@
             <option value="">Все</option>
         </select>
         @*Date: <input type="text" asp-for="bookDateTime">
-        <option value="">All</option>*@
+            <option value="">All</option>*@
 
         Автор: <select asp-for="BookAutor" asp-items="Model.Autors">
             <option value="">Все</option>
         </select>
 
-        
+
         <button type="submit"> <span class=" fa fa-search"></span></button>
 
     </p>
@@ -51,28 +54,29 @@
 
     <tbody>
 
-@foreach (var item in Model.Books) {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye linkclass"></span></a> |
-                <a asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a> 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                <a asp-controller="Authors" asp-action="Details" asp-route-returnurl="@returnUrl" asp-route-id="@item.Autor.Id">@item.Autor.Name</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>   
-                <a asp-action="Delete" asp-route-id="@item.Id"><span class=" fa fa-trash"></span></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye"></span></a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    <a asp-controller="Authors" asp-action="Details" asp-route-returnurl="@returnUrl" asp-route-id="@item.Autor.Id"  class="linkclass openmodal">@item.Autor.Name</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><span class=" fa fa-trash"></span></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

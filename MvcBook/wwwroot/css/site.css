@@ -85,9 +85,6 @@ img {
     color: white;
 }
 
-.fa-edit{
-    color: black;
-}
 
 
 .fa-book{
@@ -95,26 +92,50 @@ img {
 }
 
 .linkclass {
-    color: #c5c5c5;
+    color: blue;
 }
 
-.linkclass:link {
-    color: #c5c5c5;
-    text-decoration: none
-}
-
-.linkclass:visited {
-    color: #c5c5c5;
-    text-decoration: none
-}
-
-.linkclass:hover {
+.linkclass:link{
     color: blue;
     text-decoration: none
 }
 
-.linkclass:active {
+.linkclass:visited {
+    color: blue;
+    text-decoration: none
+}
+
+a:link, .fa-edit:link{
+    color: #c5c5c5;
+    text-decoration: none
+}
+
+a:visited {
+    color: #c5c5c5;
+    text-decoration: none
+}
+
+.linkclass:hover, a:hover {
+    color: darkblue;
+    text-decoration: none
+}
+
+.linkclass:active, a:active {
     color: red;
     text-decoration: none
+}
+
+.modal.show{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    min-width: 800px;
+}
+
+.modalclass .modal-dialog {
+    min-width: 300px;
 }
 
