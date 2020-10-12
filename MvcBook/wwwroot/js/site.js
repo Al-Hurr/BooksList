@@ -19,7 +19,7 @@ $(document).on('click', '.sub', function (e) {
             return;
         }
 
-
+        $('#modDialog').modal('hide');
         $('#modDialog').html(data);
         $('#modDialog').modal('show');
     });

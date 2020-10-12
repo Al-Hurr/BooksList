@@ -14,7 +14,7 @@ namespace MvcBook.Controllers
 {
     public class AuthorsController : Controller
     {
-        
+
         private BooksService booksService;
         private AuthorsService authorsService;
         public AuthorsController(BooksService booksService, AuthorsService authorsService)
@@ -24,18 +24,33 @@ namespace MvcBook.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? searchage, string searchauthor)
         {
 
             var authors = await authorsService.GetAll();
 
+            var ages = authors
+                .OrderBy(x => x.Age)
+                .Select(x => x.Age);
+
+            if (!String.IsNullOrEmpty(searchauthor))
+            {
+                authors = authors.Where(x => x.Name.Contains(searchauthor, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+
+            if (searchage.HasValue)
+            {
+                authors = authors.Where(x => x.Age == searchage).ToList();
+            }
+
             var autorsVM = new AuthorViewModel
             {
-                Authors =  authors
+                Authors = authors,
+                Ages = new SelectList(ages.Distinct())
             };
 
             return View(autorsVM);
-          
+
         }
 
         //[HttpPost]
@@ -59,10 +74,10 @@ namespace MvcBook.Controllers
             }
 
             author.ReturnUrl = returnURL;
-            
+
             var books = await booksService.GetAll();
 
-            books = books.Where(s => s.Autor.Id==author.Id).ToList();
+            books = books.Where(s => s.Autor.Id == author.Id).ToList();
 
             author.BooksforAuthor = books.ToList();
             return View(author);
@@ -90,14 +105,17 @@ namespace MvcBook.Controllers
         }
 
         // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnURL)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var autor = await authorsService.GetAuthor(id);
+
+            autor.ReturnUrl = returnURL;
             if (autor == null)
             {
                 return NotFound();
@@ -152,7 +170,7 @@ namespace MvcBook.Controllers
             {
                 return NotFound();
             }
-            
+
             var books = await booksService.GetAll();
 
             var book = books
@@ -171,7 +189,7 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-           authorsService.Delete(id);
+            authorsService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -180,7 +198,7 @@ namespace MvcBook.Controllers
             var authors = await authorsService.GetAll();
 
             return authors
-                .Any(x=>x.Id==id);
+                .Any(x => x.Id == id);
         }
     }
 }

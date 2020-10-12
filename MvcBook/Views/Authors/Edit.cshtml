@@ -35,7 +35,15 @@
                         <hr />
                         <div class="form-group">
                             <input type="submit" value="Сохранить" class="btn btn-primary sub" />
+                            @if(!String.IsNullOrEmpty(Model.ReturnUrl))
+                            {
+                            <a href="@Model.ReturnUrl" class="openmodal" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                            }
+                            else
+                            {
                             <a asp-action="Index" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                            }
+                            
                         </div>
                     </form>
                 </div>

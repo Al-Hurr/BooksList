@@ -11,5 +11,11 @@ namespace MvcBook.Models
         public List<Autor> Authors { get; set; }
         
         public List<string> AuthorsStr { get; set; }
+
+        public SelectList Ages { get; set; }
+
+        public string searchauthor { get; set; }
+
+        public int searchage { get; set; }
     }
 }

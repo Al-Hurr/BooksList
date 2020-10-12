@@ -3,6 +3,7 @@
 @{
     Layout = null;
     ViewData["Title"] = "Сведения";
+    var returnUrl = Context.Request.Path.Value;
 }
 
 <div class="modal-dialog modal-dialog-centered">
@@ -47,15 +48,8 @@
                     
                     <div class="col-12" style="margin-top: 25px">
                         <hr/>
-                        <a class="openmodal" asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a>
-                        @if (!string.IsNullOrEmpty(Model.ReturnUrl))
-                        {
-                            <a href="@Model.ReturnUrl" style="margin-left: 90%"><span class=" fa fa-arrow-left" ;></span></a>
-                        }
-                        else
-                        {
-                            <a asp-action="Index" style="margin-left: 90%;"><span class=" fa fa-arrow-left"></span></a>
-                        }
+                        <a class="openmodal" asp-action="Edit" asp-route-id="@Model.Id" asp-route-returnurl="@returnUrl"><span class=" fa fa-edit"></span></a>
+                      
                     </div>
 
                 </div>
