@@ -2,51 +2,54 @@
 
 @{
     ViewData["Title"] = "Удалить";
+    Layout = null;
 }
 
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            @if (!Model.InBook)
+            {
+                <h3>Хотите ли вы удалить автора?</h3>
+            }
+            else
+            {
+                <h3 style="color:red">Невозможно удалить автора т.к. на него ссылается книга.</h3>
+            }
+            <hr />
+            <div>
+                <div class="row">
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.Age)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.Age)
+                    </div>
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Email)
+                    </div>
 
-@if (!Model.InBook)
-{
-    <h1>Удаление</h1>
-    <h3>Хотите ли вы удалить автора?</h3>
-}
-else
-{
-    <h1 style="color:red">Ошибка</h1>
-    <h3 style="color:red" >Невозможно удалить автора т.к. на него ссылается книга.</h3>
-}
-
-<div>
-    <h4>Автор</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        @if (!Model.InBook)
-        {
-            @:<input type="submit" value="Удалить" class="btn btn-danger" /> |
-        }
-        <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
-    </form>
+                </div>
+                <hr />
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    @if (!Model.InBook)
+                    {
+                        @:<input type="submit" value="Удалить" class="btn btn-danger" /> 
+                    }
+                    <a asp-action="Index" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+

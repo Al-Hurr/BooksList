@@ -20,18 +20,22 @@ $(document).on('click', '.sub', function (e) {
         }
 
 
-        $('#dialogContent').html(data);
+        $('#modDialog').html(data);
         $('#modDialog').modal('show');
     });
 });
 
 $(function () {
     $.ajaxSetup({ cache: false });
-    $(".openmodal").click(function (e) {
+    $(document).on('click', ".openmodal", function (e) {
+
+        var url = this.href;
 
         e.preventDefault();
-        $.get(this.href, function (data) {
-            $('#dialogContent').html(data);
+
+        $.get(url, function (data) {
+            $('#modDialog').modal('hide');
+            $('#modDialog').html(data);
             $('#modDialog').modal('show');
         });
     });

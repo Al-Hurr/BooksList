@@ -7,7 +7,7 @@
 
 <h1>Книги</h1>
 <div id="modDialog" class="modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
+    
 </div>
 
 <p>
@@ -58,8 +58,8 @@
         {
             <tr>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye"></span></a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a>
+                    <a class="openmodal" asp-action="Details" asp-route-id="@item.Id"><span class=" fa fa-eye"></span></a> |
+                    <a class="openmodal" asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -74,7 +74,7 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id"><span class=" fa fa-trash"></span></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="openmodal"><span class=" fa fa-trash"></span></a>
                 </td>
             </tr>
         }

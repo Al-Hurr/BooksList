@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace MvcBook.Models
 {
-    public class Autor
+    public class Autor : BaseEntity
     {
         public int Id { get; set; }
 
         [StringLength(60, MinimumLength = 3)]
-        [Required]
+        [Required(ErrorMessage = "Вы не ввели имя.")]
         [System.ComponentModel.DisplayName("Имя")]
         public string Name { get; set; }
+        
+       
+        
+        [Range(7, 120, ErrorMessage = "Возраст должен быть в пределах от 7 до 100.")]
+        [Required(ErrorMessage = "Вы не ввели возраст.")]
         [System.ComponentModel.DisplayName("Возраст")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
         [System.ComponentModel.DisplayName("Электронная почта")]
+        [Required(ErrorMessage = "Вы не ввели почту.")]
+
         public string Email { get; set; }
 
         [NotMapped]
@@ -27,5 +33,7 @@ namespace MvcBook.Models
         [NotMapped]
         [System.ComponentModel.DisplayName("Книги")]
         public List<Book> BooksforAuthor { get; set; }
+
+        
     }
 }

@@ -14,37 +14,28 @@ namespace MvcBook.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly MvcBookContext _context;
-
-        public AuthorsController(MvcBookContext context)
+        
+        private BooksService booksService;
+        private AuthorsService authorsService;
+        public AuthorsController(BooksService booksService, AuthorsService authorsService)
         {
-            _context = context;
+            this.booksService = booksService;
+            this.authorsService = authorsService;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            
 
-            var authors = from m in _context.Autors
-                        select m;
-
-            //var books = from m in _context.Book
-            //            select m.Autor;
-
-
+            var authors = await authorsService.GetAll();
 
             var autorsVM = new AuthorViewModel
             {
-
-                Authors = await authors.ToListAsync(),
-                //AuthorsStr = await books.ToListAsync()
-
+                Authors =  authors
             };
 
             return View(autorsVM);
-
-            
+          
         }
 
         //[HttpPost]
@@ -61,8 +52,7 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Autors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var author = await authorsService.GetAuthor(id);
             if (author == null)
             {
                 return NotFound();
@@ -70,10 +60,9 @@ namespace MvcBook.Controllers
 
             author.ReturnUrl = returnURL;
             
-            var books = from m in _context.Book
-                        select m;
+            var books = await booksService.GetAll();
 
-            books = books.Where(s => s.Autor.Id==author.Id);
+            books = books.Where(s => s.Autor.Id==author.Id).ToList();
 
             author.BooksforAuthor = books.ToList();
             return View(author);
@@ -94,8 +83,7 @@ namespace MvcBook.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(author);
-                await _context.SaveChangesAsync();
+                authorsService.Create(author);
                 return RedirectToAction(nameof(Index));
             }
             return View(author);
@@ -109,7 +97,7 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var autor = await _context.Autors.FindAsync(id);
+            var autor = await authorsService.GetAuthor(id);
             if (autor == null)
             {
                 return NotFound();
@@ -133,12 +121,11 @@ namespace MvcBook.Controllers
             {
                 try
                 {
-                    _context.Update(author);
-                    await _context.SaveChangesAsync();
+                    authorsService.Update(author);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(author.Id))
+                    if (!await BookExists(author.Id))
                     {
                         return NotFound();
                     }
@@ -160,15 +147,16 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Autors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var author = await authorsService.GetAuthor(id);
             if (author == null)
             {
                 return NotFound();
             }
             
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Autor.Name == author.Name);
+            var books = await booksService.GetAll();
+
+            var book = books
+                .FirstOrDefault(x => x.Autor.Name == author.Name);
 
             if (book != null)
             {
@@ -183,15 +171,16 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Autors.FindAsync(id);
-            _context.Autors.Remove(author);
-            await _context.SaveChangesAsync();
+           authorsService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private async Task<bool> BookExists(int id)
         {
-            return _context.Autors.Any(e => e.Id == id);
+            var authors = await authorsService.GetAll();
+
+            return authors
+                .Any(x=>x.Id==id);
         }
     }
 }

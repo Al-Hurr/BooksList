@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcBook.Data;
 using Microsoft.EntityFrameworkCore;
+using MvcBook.Controllers;
 
 namespace MvcBook
 {
@@ -29,6 +30,10 @@ namespace MvcBook
 
             services.AddDbContext<MvcBookContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("MvcBookContext")));
+
+            services.AddTransient<AuthorsService>();
+            services.AddTransient<BooksService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

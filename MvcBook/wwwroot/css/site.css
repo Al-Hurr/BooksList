@@ -125,17 +125,12 @@ a:visited {
     text-decoration: none
 }
 
-.modal.show{
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+.evenclass div:nth-child(even) {
+    background-color: #f8f9fa !important;
 }
 
-.modal-dialog {
-    min-width: 800px;
+.boldclass {
+    font-weight: bold;
 }
 
-.modalclass .modal-dialog {
-    min-width: 300px;
-}
 

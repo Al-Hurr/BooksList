@@ -12,53 +12,51 @@ namespace MvcBook.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly MvcBookContext _context;
+        
 
-        public BooksController(MvcBookContext context)
+        private BooksService booksService;
+        private AuthorsService authorsService;
+        public BooksController(BooksService booksService, AuthorsService authorsService)
         {
-            _context = context;
+            this.booksService = booksService;
+            this.authorsService = authorsService;
         }
 
+        
         // GET: Books
         public async Task<IActionResult> Index(int? bookAutor, string searchString, string bookDateTime)
         {
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                            orderby m.Name
-                                            select m;
+            var autorQuery = await authorsService.GetAll();
 
-            IQueryable<string> dateQuery = from m in _context.Book
-                                            orderby m.ReleaseDate
-                                            
-                                            select m.ReleaseDate.ToString("d");
+            var books = await booksService.GetAll();
 
-            var books = from m in _context.Book
-                        select m;
+            var dates = books
+                .OrderBy(x => x.ReleaseDate)
+                .Select(x => x.ReleaseDate.ToString("d"));
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                books = books.Where(s => s.Title.Contains(searchString));
+                books = books.Where(s => s.Title.Contains(searchString)).ToList();
             }
 
-            
 
             if (!string.IsNullOrEmpty(bookDateTime))
             {
                 
                 var releasedate = DateTime.Parse(bookDateTime);
-                releasedate.ToShortDateString();
-                books = books.Where(x => x.ReleaseDate == releasedate);
+                books = books.Where(x => x.ReleaseDate == releasedate).ToList();
             }
             
             if (bookAutor.HasValue)
             {
-                books = books.Where(x => x.Autor.Id == bookAutor);
+                books = books.Where(x => x.Autor.Id == bookAutor).ToList();
             }
-
 
             var bookAutorVM = new BookAutorViewModel
             {
-                Autors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name)),
-                Dates = new SelectList(await dateQuery.Distinct().ToListAsync()),
-                Books = await books.ToListAsync()
+                Autors = new SelectList(autorQuery, nameof(Autor.Id), nameof(Autor.Name)),
+                Dates = new SelectList(dates.Distinct()),
+                Books = books 
             };
 
             return View(bookAutorVM);
@@ -80,8 +78,7 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var book = await booksService.GetBook(id);
             if (book == null)
             {
                 return NotFound();
@@ -93,13 +90,11 @@ namespace MvcBook.Controllers
         // GET: Books/Create
         public async Task<IActionResult> Create()
         {
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
+            var autorQuery = await authorsService.GetAll();
 
             return View(new Book
             {
-                Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name))
+                Authors = new SelectList(autorQuery, nameof(Autor.Id), nameof(Autor.Name))
             });
         }
 
@@ -112,16 +107,13 @@ namespace MvcBook.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+                booksService.Create(book);
                 return RedirectToAction(nameof(Index));
             }
 
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
+            var autorQuery = await authorsService.GetAll();
 
-            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
+            book.Authors = new SelectList(autorQuery, nameof(Autor.Id), nameof(Autor.Name));
 
             return View(book);
         }
@@ -134,17 +126,15 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
+            var book = await booksService.GetBook(id);
             if (book == null)
             {
                 return NotFound();
             }
 
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
+            var autorQuery = await authorsService.GetAll();
 
-            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
+            book.Authors = new SelectList(autorQuery, nameof(Autor.Id), nameof(Autor.Name));
 
             return View(book);
         }
@@ -165,14 +155,13 @@ namespace MvcBook.Controllers
             {
                 try
                 {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
+                    booksService.Update(book);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!await BookExists(book.Id))
                     {
-                        return NotFound();
+                        return NotFound();                                       
                     }
                     else
                     {
@@ -182,11 +171,9 @@ namespace MvcBook.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            IQueryable<Autor> autorQuery = from m in _context.Autors
-                                           orderby m.Name
-                                           select m;
+            var autorQuery = await authorsService.GetAll();
 
-            book.Authors = new SelectList(await autorQuery.ToListAsync(), nameof(Autor.Id), nameof(Autor.Name));
+            book.Authors = new SelectList(autorQuery, nameof(Autor.Id), nameof(Autor.Name));
 
             return View(book);
         }
@@ -199,8 +186,7 @@ namespace MvcBook.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var book = await booksService.GetBook(id);
             if (book == null)
             {
                 return NotFound();
@@ -214,15 +200,16 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            _context.Book.Remove(book);
-            await _context.SaveChangesAsync();
+            booksService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private async Task<bool> BookExists(int id)
         {
-            return _context.Book.Any(e => e.Id == id);
+            var books = await booksService.GetAll();
+
+            return books.Any(x => x.Id == id);
+
         }
     }
 }

@@ -2,41 +2,48 @@
 
 @{
     ViewData["Title"] = "Сведения";
+    Layout = null;
 }
 
-<h1>Сведения</h1>
 
-<div>
-    <h4>Книга</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Autor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Autor)
-        </dd>*@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a> |
-    <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
+
+<div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div>
+                
+                <div class="row">
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Title)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Title)
+                    </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.ReleaseDate)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.ReleaseDate)
+                    </div>
+                    @*<dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Autor)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Autor)
+                </dd>*@
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Price)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Price)
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div>
+                <a class="openmodal" asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a>
+                <a asp-action="Index" style="margin-left: 90%;"><span class=" fa fa-arrow-left"></span></a>
+            </div>
+        </div>
+    </div>
 </div>

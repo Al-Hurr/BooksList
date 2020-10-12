@@ -2,44 +2,51 @@
 
 @{
     ViewData["Title"] = "Удалить";
+    Layout = null;
 }
 
-<h1>Удаление</h1>
 
-<h3>Хотите ли вы удалить книгу?</h3>
-<div>
-    <h4>Книга</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Autor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Autor)
-        </dd>*@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
-        <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
-    </form>
+
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3>Хотите ли вы удалить книгу?</h3>
+            <div>
+
+                <hr />
+                <div class="row">
+                    <dvi class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dvi>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Title)
+                    </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.ReleaseDate)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.ReleaseDate)
+                    </div>
+                    @*<dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Autor)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Autor)
+            </dd>*@
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Price)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Price)
+                    </div>
+                </div>
+                <hr />
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Удалить" class="btn btn-danger" /> 
+                    <a asp-action="Index" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

@@ -5,55 +5,61 @@
     ViewData["Title"] = "Сведения";
 }
 
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 bg-light boldclass" >
+                        @Html.DisplayNameFor(model => model.Name)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
 
-<div class="modal-content">
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-sm-6">
-                @Html.DisplayNameFor(model => model.Name)
-            </div>
-            <div class="col-sm-6">
-                @Html.DisplayFor(model => model.Name)
-            </div>
-            <div class="col-sm-6">
-                @Html.DisplayNameFor(model => model.Age)
-            </div>
-            <div class="col-sm-6">
-                @Html.DisplayFor(model => model.Age)
-            </div>
-            <div class="col-sm-6">
-                @Html.DisplayNameFor(model => model.Email)
-            </div>
-            <div class="col-sm-6">
-                @Html.DisplayFor(model => model.Email)
-            </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.Age)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.Age)
+                    </div>
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Email)
+                    </div>
 
-            <div class="col-6">
+                    <div class="col-6 boldclass">
 
-                @Html.DisplayNameFor(model => model.BooksforAuthor)
-            </div>
-            <div class="col-sm-6">
-               
-                    @foreach (var item in Model.BooksforAuthor)
-                    {
-                        <li>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </li>
-                    }
-               
-            </div>
-            <div class="col-12">
-                <a asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a> |
-                @if (!string.IsNullOrEmpty(Model.ReturnUrl))
-                {
-                    <a href="@Model.ReturnUrl"><span class=" fa fa-arrow-left"></span></a>
-                }
-                else
-                {
-                    <a asp-action="Index"><span class=" fa fa-arrow-left"></span></a>
-                }
-            </div>
+                        @Html.DisplayNameFor(model => model.BooksforAuthor)
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row evenclass">
+                            @foreach (var item in Model.BooksforAuthor)
+                            {
+                                <div  class="col-12 ">
+                                    &bull; @Html.DisplayFor(modelItem => item.Title)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="col-12" style="margin-top: 25px">
+                        <hr/>
+                        <a class="openmodal" asp-action="Edit" asp-route-id="@Model.Id"><span class=" fa fa-edit"></span></a>
+                        @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+                        {
+                            <a href="@Model.ReturnUrl" style="margin-left: 90%"><span class=" fa fa-arrow-left" ;></span></a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index" style="margin-left: 90%;"><span class=" fa fa-arrow-left"></span></a>
+                        }
+                    </div>
 
+                </div>
+            </div>
         </div>
     </div>
 </div>
