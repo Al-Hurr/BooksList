@@ -16,6 +16,7 @@ namespace MvcBook.Models
 
         public string searchauthor { get; set; }
 
-        public int searchage { get; set; }
+        public int searchagefrom { get; set; } = 7;
+        public int searchageto { get; set; } = 120;
     }
 }

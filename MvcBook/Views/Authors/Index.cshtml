@@ -5,22 +5,15 @@
 }
 
 <h1>Авторы</h1>
-
-
 <p>
     <a class="openmodal" asp-action="Create"><span class=" fa fa-plus"></span></a>
 </p>
 <form asp-controller="Authors" asp-action="Index" method="get">
     <p>
-        Имя: <input type="text" asp-for="searchauthor">
-
-        Возраст:  <select asp-for="searchage" asp-items="Model.Ages">
-            <option value="">Все</option>
-        </select>
-     
-
+        Имя: <input type="text" asp-for="searchauthor" placeholder="Введите имя" size="15">
+        Возраст: от <input type="number" asp-for="searchagefrom" required min="7" max="120" size="1">        
+                 до <input type="number" asp-for="searchageto" required min ="7" max="120"  size="1">
         <button type="submit"> <span class=" fa fa-search"></span></button>
-
     </p>
 </form>
 <table class="table">

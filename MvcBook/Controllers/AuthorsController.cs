@@ -24,7 +24,7 @@ namespace MvcBook.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(int? searchage, string searchauthor)
+        public async Task<IActionResult> Index(string searchauthor, int? searchagefrom, int? searchageto)
         {
 
             var authors = await authorsService.GetAll();
@@ -38,9 +38,9 @@ namespace MvcBook.Controllers
                 authors = authors.Where(x => x.Name.Contains(searchauthor, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
-            if (searchage.HasValue)
+            if (searchagefrom.HasValue && searchageto.HasValue)
             {
-                authors = authors.Where(x => x.Age == searchage).ToList();
+                authors = authors.Where(x => x.Age >= searchagefrom && x.Age <= searchageto).ToList(); 
             }
 
             var autorsVM = new AuthorViewModel
@@ -98,7 +98,7 @@ namespace MvcBook.Controllers
         {
             if (ModelState.IsValid)
             {
-                authorsService.Create(author);
+                await authorsService.Create(author);
                 return RedirectToAction(nameof(Index));
             }
             return View(author);
@@ -139,7 +139,7 @@ namespace MvcBook.Controllers
             {
                 try
                 {
-                    authorsService.Update(author);
+                    await authorsService.Update(author);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -189,7 +189,7 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            authorsService.Delete(id);
+            await authorsService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
