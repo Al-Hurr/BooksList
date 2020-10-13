@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace MvcBook.Controllers
 
         
         // GET: Books
-        public async Task<IActionResult> Index(int? bookAutor, string searchString, string bookDateTime)
+        public async Task<IActionResult> Index(int? bookAutor, string searchString, int? bookDateTimeto, int? bookDateTimefrom)
         {
             var autorQuery = await authorsService.GetAll();
 
@@ -40,13 +41,13 @@ namespace MvcBook.Controllers
             }
 
 
-            if (!string.IsNullOrEmpty(bookDateTime))
-            {
-                
-                var releasedate = DateTime.Parse(bookDateTime);
-                books = books.Where(x => x.ReleaseDate == releasedate).ToList();
+            if (bookDateTimeto.HasValue && bookDateTimefrom.HasValue)
+            {        
+                books = books.Where(x => x.ReleaseDate.Year >= bookDateTimeto && x.ReleaseDate.Year <= bookDateTimefrom).ToList();
             }
             
+           
+
             if (bookAutor.HasValue)
             {
                 books = books.Where(x => x.Autor.Id == bookAutor).ToList();
@@ -107,7 +108,7 @@ namespace MvcBook.Controllers
         {
             if (ModelState.IsValid)
             {
-                booksService.Create(book);
+                await booksService.Create(book);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -155,7 +156,7 @@ namespace MvcBook.Controllers
             {
                 try
                 {
-                    booksService.Update(book);
+                    await booksService.Update(book);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -200,7 +201,7 @@ namespace MvcBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            booksService.Delete(id);
+            await booksService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 

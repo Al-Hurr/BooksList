@@ -32,19 +32,19 @@ namespace MvcBook.Controllers
             return await author;
         }
 
-        public async void Create(Autor author)
+        public async Task Create(Autor author)
         {
             _context.Add(author);
             await _context.SaveChangesAsync();
         }
 
-        public async void Update(Autor author)
+        public async Task Update(Autor author)
         {
             _context.Update(author);
             await _context.SaveChangesAsync();
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             var author = await _context.Autors.FindAsync(id);
             _context.Autors.Remove(author);

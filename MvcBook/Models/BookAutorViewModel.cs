@@ -13,7 +13,8 @@ namespace MvcBook.Models
         public string BookAutor { get; set; }
         public SelectList Dates { get; set; }
 
-        public string bookDateTime { get; set; }
+        public int bookDateTimeto { get; set; } = 1990;
+        public int bookDateTimefrom { get; set; } = DateTime.Today.Year;
         public string SearchString { get; set; }
     }
 }

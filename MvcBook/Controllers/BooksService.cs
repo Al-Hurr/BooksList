@@ -33,20 +33,21 @@ namespace MvcBook.Controllers
             return await book;
         }
 
-        public async void Update(Book book)
+        public async Task Update(Book book)
         {
             _context.Update(book);
+            
             await _context.SaveChangesAsync();
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             var book = await _context.Book.FindAsync(id);
             _context.Book.Remove(book);
             await _context.SaveChangesAsync();
         }
 
-        public async void Create(Book book)
+        public async Task Create(Book book)
         {
             _context.Add(book);
             await _context.SaveChangesAsync();

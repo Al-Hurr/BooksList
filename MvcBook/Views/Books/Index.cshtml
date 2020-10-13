@@ -17,11 +17,10 @@
     <p>
         Название: <input type="text" asp-for="SearchString">
 
-        Дата выпуска:  <select asp-for="bookDateTime" asp-items="Model.Dates">
-            <option value="">Все</option>
-        </select>
-        @*Date: <input type="text" asp-for="bookDateTime">
-            <option value="">All</option>*@
+        Дата выпуска: c <input type="number" asp-for="bookDateTimeto" required min="1700" max="@DateTime.Now.Year" size="5">
+                      по <input type="number" asp-for="bookDateTimefrom" required min="1700" max="@DateTime.Now.Year"  size="5">
+       
+      
 
         Автор: <select asp-for="BookAutor" asp-items="Model.Autors">
             <option value="">Все</option>
