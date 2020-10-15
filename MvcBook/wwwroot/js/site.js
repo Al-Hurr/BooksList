@@ -39,4 +39,10 @@ $(function () {
             $('#modDialog').modal('show');
         });
     });
-})
+});
+
+$(document).on('change', '[name="Ammount"]', function () {
+    var amount = parseFloat($(this).val());
+    var price = parseFloat($('[bookprice]').val());
+    $('[name="Price"]').val(amount * price);
+});

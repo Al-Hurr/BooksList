@@ -19,11 +19,11 @@ namespace MvcBook.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; } = DateTime.Today;
         // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
-        [Display(Name = "Автор")]
+       
         public Autor Autor { get; set; }
+        [Display(Name = "Автор")]
         public int? AutorId { get; set; }
         
-       
         [Range(1, 1000000, ErrorMessage = "Цена должна быть в пределах от 1 до 1 000 000 руб.")]
         [Required(ErrorMessage = "Вы не ввели цену.")]
         [DataType(DataType.Currency)]

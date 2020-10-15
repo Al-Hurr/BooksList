@@ -29,6 +29,7 @@ namespace MvcBook.Controllers
         public async Task<Book> GetBook(int? id)
         {
             var book = _context.Book
+                .Include(x => x.Autor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             return await book;
         }
