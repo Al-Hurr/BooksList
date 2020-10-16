@@ -1,12 +1,9 @@
 ﻿@model MvcBook.Models.PurchaseViewModel
 
 @{
-    ViewData["Title"] = "Корзина";
+    ViewData["Title"] = "История";
 }
 
-
-        <h1 class="float-right"> <a asp-controller="PurchasesHistory" asp-action="Index"><span class=" fa fa-history"></span></a></h1>
-    
 <div id="modDialog" class="modal fade"> </div>
 
 <table class="table">
@@ -17,6 +14,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Purchases[0].Book.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].BuyDate)
+            </th>
+            <th>
+                Время
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Purchases[0].Book.Price)
@@ -42,17 +45,16 @@
                 @Html.DisplayFor(modelItem => item.Book.Autor.Name)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.BuyDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Book.Price)
             </td>
             <td>
-                <div class="row">
-                    <div class="col-2" style="margin-left:15px;">
-                        @Html.DisplayFor(modelItem => item.Ammount)
-                    </div>
-                    <div class="col-2">
-                        <a class="openmodal" asp-action="Edit" asp-route-id="@item.Id"><span class=" fa fa-edit"></span></a>
-                    </div>
-                </div>
+                @Html.DisplayFor(modelItem => item.Ammount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
@@ -74,12 +76,9 @@
     </div>
     <form method="post">
         <div class="form-group" style="margin-top:10px;">
-            <input asp-action="Buy" type="submit" value="Купить" class="btn btn-primary buy" style="background-color:#1bc24b;" />
+            <input asp-action="Delete" type="submit" value="Очистить" class="btn btn-primary buy" style="background-color:#1bc24b;" />
         </div>
     </form>
 </div>
-@section Scripts{
-    <script>
-        $('.cart').hide();
-    </script>
-}
+
+

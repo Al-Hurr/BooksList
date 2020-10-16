@@ -41,11 +41,29 @@ $(function () {
     });
 });
 
+$(document).on('click', '.plusbutton', function () {
+    var value = parseInt($('[name="Ammount"]').val());
+    $('[name="Ammount"]').val(++value);
+    $('[name="Ammount"]').trigger('change');
+});
+
+$(document).on('click', '.minusbutton', function () {
+    var value = parseInt($('[name="Ammount"]').val());
+
+    if (value <= 1)
+        return; 
+
+    $('[name="Ammount"]').val(--value);
+    $('[name="Ammount"]').trigger('change');
+});
+
+
 $(document).on('change', '[name="Ammount"]', function () {
     var amount = parseFloat($(this).val());
     var price = parseFloat($('[bookprice]').val());
     $('[name="Price"]').val(amount * price);
 });
+
 
 $(document).on('click', '.buy', function () {
     alert('Куплено!');

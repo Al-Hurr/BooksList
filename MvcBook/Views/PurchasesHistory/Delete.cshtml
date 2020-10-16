@@ -1,0 +1,51 @@
+﻿@model MvcBook.Models.Purchase
+
+@{
+    ViewData["Title"] = "Удалить";
+    Layout = null;
+}
+
+
+
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3>Удаление истории</h3>
+            <div>
+                <hr />
+                <div class="row">
+                    <dvi class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Book.Title)
+                    </dvi>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Book.Title)
+                    </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.Book.Autor.Name)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.Book.Autor.Name)
+                    </div>
+                    <div class="col-sm-6 boldclass">
+                        @Html.DisplayNameFor(model => model.Ammount)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.Ammount)
+                    </div>
+                    <div class="col-sm-6 bg-light boldclass">
+                        @Html.DisplayNameFor(model => model.Price)
+                    </div>
+                    <div class="col-sm-6 bg-light">
+                        @Html.DisplayFor(model => model.Price)
+                    </div>
+                </div>
+                <hr />
+                <form asp-action="DeleteConfirmed">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Очистить" class="btn btn-danger" /> 
+                    <a asp-action="Index" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

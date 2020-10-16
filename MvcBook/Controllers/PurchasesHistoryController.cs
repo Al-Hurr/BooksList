@@ -11,7 +11,7 @@ using MvcBook.Models;
 
 namespace MvcBook.Controllers
 {
-    public class PurchasesController : Controller
+    public class PurchasesHistoryController : Controller
     {
         
 
@@ -19,22 +19,22 @@ namespace MvcBook.Controllers
         private AuthorsService authorsService;
         private PurchasesService purchasesService;
         private PurchasesHistoryService purchasesHistoryService;
-        public PurchasesController(BooksService booksService, AuthorsService authorsService, 
+        public PurchasesHistoryController(BooksService booksService, AuthorsService authorsService, 
             PurchasesService purchasesService, PurchasesHistoryService purchaseshistoryservice)
         {
             this.booksService = booksService;
             this.authorsService = authorsService;
             this.purchasesService = purchasesService;
-            purchasesHistoryService = purchaseshistoryservice;
+            this.purchasesHistoryService = purchaseshistoryservice;
         }
 
         
         // GET: Books
         public async Task<IActionResult> Index()
-        {               
-            var purchases = await purchasesService.GetAll();            
-            
-            var purchasesVM = new PurchaseViewModel(purchases);
+        {
+            var purchaseshistory = await purchasesService.GetAll(BuyStatus.Bought);
+
+            var purchasesVM = new PurchaseViewModel(purchaseshistory);
             
             return View(purchasesVM);
         }
@@ -54,16 +54,16 @@ namespace MvcBook.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Price,Ammount")] Purchase purchase)
+        public async Task<IActionResult> Create([Bind("BookId,Price,Ammount")] PurchasesHistory purchaseshistory)
         {
 
             if (ModelState.IsValid)
             {
-                await purchasesService.Create(purchase);
+                await purchasesHistoryService.Create(purchaseshistory);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(purchase);
+            return View(purchaseshistory);
         }
 
         // GET: Books/Edit/5
@@ -138,7 +138,7 @@ namespace MvcBook.Controllers
         }
 
         // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -156,23 +156,10 @@ namespace MvcBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Buy()
+        public async Task<IActionResult> Delete()
         {
-            var pursaches = await purchasesService.GetAll();
-            await CreatePurchaseHistory(pursaches);
-            
-            
+            await purchasesService.Delete(BuyStatus.Bought);
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task CreatePurchaseHistory(List<Purchase> purchases)
-        {
-            
-            foreach(var item in purchases)
-            {
-                item.BuyStatus = BuyStatus.Bought;
-                await purchasesService.Update(item);
-            }
         }
     }
 }

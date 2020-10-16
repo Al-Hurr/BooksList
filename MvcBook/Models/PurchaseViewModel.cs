@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 
@@ -10,13 +8,16 @@ namespace MvcBook.Models
     {
         public List<Purchase> Purchases { get; set; }
 
+
         public decimal? Sum { get; set; } = 0;
 
         public PurchaseViewModel(List<Purchase> purchases)
         {
+           
             Purchases = purchases;
-            Pracesum(purchases);
+            Pracesum(Purchases);
         }
+        
 
         private void Pracesum(List<Purchase> purchases)
         {
@@ -27,5 +28,7 @@ namespace MvcBook.Models
             }
 
         }
+
+      
     }
 }

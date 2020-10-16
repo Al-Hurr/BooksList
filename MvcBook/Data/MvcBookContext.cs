@@ -17,6 +17,7 @@ namespace MvcBook.Data
         public DbSet<Autor> Autors { get; set; }
 
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<PurchasesHistory> PurchasesHistory { get; set; }
 
 
 

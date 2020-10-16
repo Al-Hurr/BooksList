@@ -30,15 +30,18 @@
                     </div>
                     <div class="col-5 boldclass m-2">
                         @Html.DisplayNameFor(x => x.Ammount)
+                    </div>  
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="minusbutton border-0 bg-transparent"> <span class=" fa fa-minus"></span></button>
                     </div>
                     <div class="form-group col-3 m-2">
-                        <input asp-for="Ammount" class="form-control" required min="1" />
+                        <input asp-for="Ammount" class="form-control" readonly min="1" />
                     </div>
-                    @*<div m-2">
-                        <a asp-action=""> <span class=" fa fa-plus"></span></a>
-                    </div>*@
-                    <input type="hidden" bookprice value="@Model.Book.Price"/>
-                    <input type="hidden" asp-for="BookId"/>
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="plusbutton border-0 bg-transparent"> <span class=" fa fa-plus"></span></button>
+                    </div>
+                    <input type="hidden" bookprice value="@Model.Book.Price" />
+                    <input type="hidden" asp-for="BookId" />
                 </div>
                 <hr />
                 <div class="form-group">

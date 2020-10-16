@@ -19,7 +19,7 @@ namespace MvcBook.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; } = DateTime.Today;
         // [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
-       
+        [Display(Name = "Автор  ")]
         public Autor Autor { get; set; }
         [Display(Name = "Автор")]
         public int? AutorId { get; set; }
@@ -33,6 +33,7 @@ namespace MvcBook.Models
 
         [NotMapped]
         public SelectList Authors { get; set; }
+        
 
        
     }

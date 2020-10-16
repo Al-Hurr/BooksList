@@ -17,17 +17,21 @@ namespace MvcBook.Controllers
             _context = context;
         }
 
-        public async Task<List<Purchase>> GetAll()
+        public async Task<List<Purchase>> GetAll(BuyStatus buyStatus = BuyStatus.AwaitingPayment)
         {
             return await _context.Purchases
                 .Include(x=>x.Book.Autor)
+                .Where(x => x.BuyStatus == buyStatus)
                 .OrderBy(x=>x.Book.Title)
                 .ToListAsync();
         }
 
         public async Task<int> GetCount()
         {
-            return await _context.Purchases.CountAsync();
+            return await _context.Purchases
+                .Include(x => x.Book.Autor)
+                .Where(x => x.BuyStatus == BuyStatus.AwaitingPayment)
+                .SumAsync(x => x.Ammount);
         }
             
 
@@ -49,9 +53,9 @@ namespace MvcBook.Controllers
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete()
+        public async Task Delete(BuyStatus buyStatus)
         {
-            var purchases = await _context.Purchases.ToListAsync();
+            var purchases = await GetAll(buyStatus);
             _context.Purchases.RemoveRange(purchases);
             await _context.SaveChangesAsync();
         }

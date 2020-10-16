@@ -34,6 +34,7 @@ namespace MvcBook
             services.AddTransient<AuthorsService>();
             services.AddTransient<BooksService>();
             services.AddTransient<PurchasesService>();
+            services.AddTransient<PurchasesHistoryService>();
 
         }
 

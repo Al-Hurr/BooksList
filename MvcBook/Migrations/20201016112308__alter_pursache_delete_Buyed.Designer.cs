@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcBook.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MvcBook.Migrations
 {
     [DbContext(typeof(MvcBookContext))]
-    partial class MvcBookContextModelSnapshot : ModelSnapshot
+    [Migration("20201016112308__alter_pursache_delete_Buyed")]
+    partial class _alter_pursache_delete_Buyed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,12 +88,6 @@ namespace MvcBook.Migrations
                     b.Property<int?>("BookId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("BuyDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("BuyStatus")
-                        .HasColumnType("integer");
-
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18, 2)");
 
@@ -114,9 +110,6 @@ namespace MvcBook.Migrations
 
                     b.Property<int?>("BookId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("BuyDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18, 2)");
