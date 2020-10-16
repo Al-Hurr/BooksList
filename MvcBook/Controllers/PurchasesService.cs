@@ -24,6 +24,11 @@ namespace MvcBook.Controllers
                 .OrderBy(x=>x.Book.Title)
                 .ToListAsync();
         }
+
+        public async Task<int> GetCount()
+        {
+            return await _context.Purchases.CountAsync();
+        }
             
 
         public async Task<Purchase> GetPurchase(int? id)
@@ -41,6 +46,13 @@ namespace MvcBook.Controllers
         {
             var purchase = await _context.Purchases.FindAsync(id);
             _context.Purchases.Remove(purchase);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete()
+        {
+            var purchases = await _context.Purchases.ToListAsync();
+            _context.Purchases.RemoveRange(purchases);
             await _context.SaveChangesAsync();
         }
 

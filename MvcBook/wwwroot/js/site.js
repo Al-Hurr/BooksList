@@ -19,7 +19,7 @@ $(document).on('click', '.sub', function (e) {
             return;
         }
 
-        $('#modDialog').modal('hide');
+        //$('#modDialog').modal('hide');
         $('#modDialog').html(data);
         $('#modDialog').modal('show');
     });
@@ -34,7 +34,7 @@ $(function () {
         e.preventDefault();
 
         $.get(url, function (data) {
-            $('#modDialog').modal('hide');
+            //$('#modDialog').modal('hide');
             $('#modDialog').html(data);
             $('#modDialog').modal('show');
         });
@@ -46,3 +46,9 @@ $(document).on('change', '[name="Ammount"]', function () {
     var price = parseFloat($('[bookprice]').val());
     $('[name="Price"]').val(amount * price);
 });
+
+$(document).on('click', '.buy', function () {
+    alert('Куплено!');
+});
+//nativeJS
+//document.getElementsByClassName('buy')[0].addEventListener('click', function () { alert('gg') });

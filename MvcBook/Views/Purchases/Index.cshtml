@@ -63,12 +63,12 @@
             <h3>@Html.DisplayFor(modelItem => Model.Sum)</h3>
         </div>
     </div>
-
-    <div class="form-group" style="margin-top:10px;">
-        <input type="submit" value="Купить" class="btn btn-primary" style="background-color:#1bc24b;"/>
-    </div>
+    <form method="post">
+        <div class="form-group" style="margin-top:10px;">
+            <input asp-action="Buy" type="submit" value="Купить" class="btn btn-primary buy" style="background-color:#1bc24b;" />
+        </div>
+    </form>
 </div>
-
 @section Scripts{ 
     <script>
         $('.cart').hide();

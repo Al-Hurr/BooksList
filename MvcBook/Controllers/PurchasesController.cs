@@ -152,5 +152,13 @@ namespace MvcBook.Controllers
             return purchase.Any(x => x.Id == id);
 
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Buy()
+        {
+            await purchasesService.Delete();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
