@@ -137,6 +137,16 @@ namespace MvcBook.Controllers
             return View(purchase);
         }
 
+        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Clear()
+        {
+            await purchasesService.Delete(BuyStatus.AwaitingPayment);
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -156,14 +166,14 @@ namespace MvcBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Buy()
+        public async Task<IActionResult> Buy(List<int> ids)
         {
-            var pursaches = await purchasesService.GetAll();
-            await CreatePurchaseHistory(pursaches);
-            
-            
+            var pursaches = await purchasesService.GetAllByIds(ids);
+            await CreatePurchaseHistory(pursaches);    
             return RedirectToAction(nameof(Index));
         }
+
+       
 
         private async Task CreatePurchaseHistory(List<Purchase> purchases)
         {

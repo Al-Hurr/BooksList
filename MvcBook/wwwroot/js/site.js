@@ -57,11 +57,10 @@ $(document).on('click', '.minusbutton', function () {
     $('[name="Ammount"]').trigger('change');
 });
 
-
 $(document).on('change', '[name="Ammount"]', function () {
-    var amount = parseFloat($(this).val());
-    var price = parseFloat($('[bookprice]').val());
-    $('[name="Price"]').val(amount * price);
+    var amount = parseFloat($(this).val().replace(',','.'));
+    var price = parseFloat($('[bookprice]').val().replace(',', '.'));
+    $('[name="Price"]').val((amount * price).toString().replace('.',','));
 });
 
 
@@ -70,3 +69,30 @@ $(document).on('click', '.buy', function () {
 });
 //nativeJS
 //document.getElementsByClassName('buy')[0].addEventListener('click', function () { alert('gg') });
+
+$(document).on('click', '.checkbutton', function () {
+    if (this.checked) {
+        $('.purchasecheck').prop('checked', 'checked');
+    }
+    else {
+        $('.purchasecheck').each(function () {
+            this.checked = false;
+        });
+    }
+});
+
+$(document).on('click', function () {
+    if ($('.purchasecheck:checked').length) {
+        $('.fordisabled').removeAttr('disabled');
+    }
+    else {
+        $('.fordisabled').prop('disabled','disabled');
+    }
+   
+});
+
+$(document).on('click', '.confirmbutton', function (e) {
+    if (!confirm('Очистить историю?')) {
+        e.preventDefault();
+    }
+});

@@ -13,13 +13,13 @@ namespace MvcBook.Controllers
 {
     public class PurchasesHistoryController : Controller
     {
-        
+
 
         private BooksService booksService;
         private AuthorsService authorsService;
         private PurchasesService purchasesService;
         private PurchasesHistoryService purchasesHistoryService;
-        public PurchasesHistoryController(BooksService booksService, AuthorsService authorsService, 
+        public PurchasesHistoryController(BooksService booksService, AuthorsService authorsService,
             PurchasesService purchasesService, PurchasesHistoryService purchaseshistoryservice)
         {
             this.booksService = booksService;
@@ -28,25 +28,33 @@ namespace MvcBook.Controllers
             this.purchasesHistoryService = purchaseshistoryservice;
         }
 
-        
+
         // GET: Books
         public async Task<IActionResult> Index()
         {
             var purchaseshistory = await purchasesService.GetAll(BuyStatus.Bought);
 
             var purchasesVM = new PurchaseViewModel(purchaseshistory);
-            
+
+            return View(purchasesVM);
+        }
+        public async Task<IActionResult> RefundedIndex()
+        {
+            var purchaseshistory = await purchasesService.GetAll(BuyStatus.Refunded);
+
+            var purchasesVM = new PurchaseViewModel(purchaseshistory);
+
             return View(purchasesVM);
         }
 
-        
+
 
         // GET: Books/Create
         public async Task<IActionResult> Create(int? id)
         {
             var book = await booksService.GetBook(id);
 
-            return View(new Purchase(book)); 
+            return View(new Purchase(book));
         }
 
         // POST: Books/Create
@@ -79,7 +87,7 @@ namespace MvcBook.Controllers
             {
                 return NotFound();
             }
-            
+
 
             return View(purchase);
         }
@@ -106,7 +114,7 @@ namespace MvcBook.Controllers
                 {
                     if (!await PurchaseExists(purchase.Id))
                     {
-                        return NotFound();                                       
+                        return NotFound();
                     }
                     else
                     {
@@ -116,7 +124,7 @@ namespace MvcBook.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            
+
             return View(purchase);
         }
 
@@ -140,10 +148,12 @@ namespace MvcBook.Controllers
         // POST: Books/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task DeleteConfirmed(int id)
         {
+            var value = await purchasesService.GetPurchase(id);
+
             await purchasesService.Delete(id);
-            return RedirectToAction(nameof(Index));
+           
         }
 
         private async Task<bool> PurchaseExists(int id)
@@ -156,9 +166,35 @@ namespace MvcBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(BuyStatus buyStatus = BuyStatus.AwaitingPayment)
         {
-            await purchasesService.Delete(BuyStatus.Bought);
+            await purchasesService.Delete(buyStatus);
+            return RedirectToAction(buyStatus == BuyStatus.Bought ? nameof(Index) : nameof(RefundedIndex));
+        }
+
+        public async Task<IActionResult> Refund(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var purchase = await purchasesService.GetPurchase(id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
+            return View(purchase);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Refund(int id)
+        {
+            var purchase = await purchasesService.GetPurchase(id);
+            purchase.BuyStatus = BuyStatus.Refunded;
+            await purchasesService.Update(purchase);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -1,16 +1,14 @@
 ﻿@model MvcBook.Models.Purchase
 
 @{
-    ViewData["Title"] = "Удалить";
+    ViewData["Title"] = "Возврат";
     Layout = null;
 }
-
-
 
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-body">
-            <h3>Удаление истории</h3>
+            <h3>Возврат</h3>
             <div>
                 <hr />
                 <div class="row">
@@ -40,10 +38,10 @@
                     </div>
                 </div>
                 <hr />
-                <form asp-action="DeleteConfirmed">
+                <form asp-action="Refund" method="post">
                     <input type="hidden" asp-for="Id" />
-                    <input type="submit" value="Очистить" class="btn btn-danger sub" /> 
-                    <a href="#!" data-dismiss="modal" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
+                    <input type="submit" value="Возврат" class="btn btn-dark" /> 
+                    <a asp-action="Index" style="float: right; margin-right: 25px; margin-top: 7px;"><span class=" fa fa-arrow-left"></span></a>
                 </form>
             </div>
         </div>

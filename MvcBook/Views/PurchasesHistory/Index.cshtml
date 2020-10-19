@@ -9,6 +9,7 @@
 <table class="table">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model.Purchases[0].Book.Title)
             </th>
@@ -37,32 +38,36 @@
 
         @foreach (var item in Model.Purchases)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Autor.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuyDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ammount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="openmodal"><span class=" fa fa-times"></span></a>
-            </td>
-        </tr>
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Autor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuyDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ammount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Refund" asp-route-id="@item.Id" class="openmodal"><span class=" fa fa-reply"></span></a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="openmodal"><span class=" fa fa-times"></span></a>
+                </td>
+            </tr>
         }
 
     </tbody>
@@ -76,9 +81,14 @@
     </div>
     <form method="post">
         <div class="form-group" style="margin-top:10px;">
-            <input asp-action="Delete" type="submit" value="Очистить" class="btn btn-primary buy" style="background-color:#1bc24b;" />
+            <input asp-action="Delete" asp-route-buyStatus="@BuyStatus.Bought" type="submit" value="Очистить все" class="btn btn-primary confirmbutton" style="background-color:#1bc24b;" />
         </div>
     </form>
 </div>
-
+@section Scripts{
+    <script>
+        $('.carthistory').removeClass('d-flex');
+        $('.carthistory').hide();
+    </script>
+}
 

@@ -26,6 +26,16 @@ namespace MvcBook.Controllers
                 .ToListAsync();
         }
 
+        public async Task<List<Purchase>> GetAllByIds(List<int> ids)
+        {
+            return await _context.Purchases
+                .Include(x=>x.Book.Autor)
+                .Where(x => ids
+                            .Any(y => y == x.Id))
+                .OrderBy(x=>x.Book.Title)
+                .ToListAsync();
+        }
+
         public async Task<int> GetCount()
         {
             return await _context.Purchases

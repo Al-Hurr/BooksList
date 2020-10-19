@@ -1,0 +1,87 @@
+﻿@model MvcBook.Models.PurchaseViewModel
+
+@{
+    ViewData["Title"] = "Возвращенные";
+}
+
+<div id="modDialog" class="modal fade"> </div>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].Book.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].BuyDate)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].Book.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].Ammount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchases[0].Price)
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Purchases)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Autor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyDate)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ammount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+           
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="openmodal"><span class=" fa fa-times"></span></a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-10">
+        <div class="float-right">
+            <h2>Итого:</h2>
+            <h3>@Html.DisplayFor(modelItem => Model.Sum)</h3>
+        </div>
+    </div>
+    <form method="post">
+        <div class="form-group" style="margin-top:10px;">
+            <input asp-action="Delete" asp-route-buyStatus="@BuyStatus.Refunded" type="submit" value="Очистить все" class="btn btn-primary buy confirmbutton" style="background-color:#1bc24b;" />
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script>
+        $('.carthistory').hide();
+    </script>
+}
+
